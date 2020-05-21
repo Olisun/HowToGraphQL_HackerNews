@@ -2,35 +2,23 @@ const { GraphQLServer } = require('graphql-yoga');
 
 let links = [
   {
-    id: '1',
+    id: 'link-1',
     url: 'www.howtographql.com',
     description: 'Fullstack tutorial for GraphQL'
   },
   {
-    id: '2',
+    id: 'link-2',
     url: 'www.espn.com',
     description: 'Sports website'
   },
   {
-    id: '3',
+    id: 'link-3',
     url: 'www.dev.to',
     description: 'Developers blog'
   }
 ]
 
-const typeDefs = `
-  type Query {
-    info: String!
-    feed: [Link!]!
-    link(id: ID!): Link!
-  }
-
-  type Link {
-    id: ID!
-    description: String!
-    url: String!
-  }
-`;
+let linksIdCount = links.length
 
 const resolvers = {
   Query: {
@@ -44,11 +32,46 @@ const resolvers = {
       const link = links.find(args => args.id === id);
       return link
     }
+  },
+
+  Mutation: {
+    post: (parent, args) => {
+      const newLink = {
+        id: `link-${linksIdCount++}`,
+        description: args.description,
+        url: args.url
+      }
+      links = [...links, newLink]
+      return newLink
+    },
+    delete: (args, { id }) => {
+      const linkToDelete = links.find(args => args.id === id);
+      links = links.filter(link => {
+        return link.id !== linkToDelete.id;
+      });
+      return linkToDelete;
+    },
+    update: (args, { id, url, description }) => {
+      let updatedLink;
+      links = links.map(link => {
+        if (link.id === id) {
+          updatedLink = {
+            id: link.id,
+            url: url !== undefined ? url : link.url,
+            description: description !== undefined ? description : link.description
+          }
+          return updatedLink;
+        } else {
+          return link
+        }
+      });
+      return updatedLink
+    }
   }
 }
 
 const server = new GraphQLServer({
-  typeDefs,
+  typeDefs: './src/schema.graphql',
   resolvers,
 })
 
