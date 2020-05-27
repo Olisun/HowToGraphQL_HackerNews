@@ -6,12 +6,15 @@ type Query {
 
 type Link {
   id: ID!
+  createdAt: DateTime!
   description: String!
   url: String!
 }
 
+scalar DateTime
+
 type Mutation {
   post(url: String!, description: String!): Link!
   delete(id: ID!): Link!
-  update(id: ID!, url: String!, description: String!): Link!
+  update(id: ID!, url: String, description: String): Link!
 }
