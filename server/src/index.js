@@ -10,16 +10,6 @@ const resolvers = {
   Mutation,
   User,
   Link
-},
-
-  Mutation: {
-    post: (root, args, context) => {
-      return context.prisma.createLink({
-      url: args.url,
-      description: args.description
-    })
-    },
-  },
 }
 
 const server = new GraphQLServer({
