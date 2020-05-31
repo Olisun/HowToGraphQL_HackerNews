@@ -35,7 +35,7 @@ async function login(parent, args, context, info) {
   }
 }
 
-async function(parent, args, context, info) {
+async function vote(parent, args, context, info) {
   const userId = getUserId(context);
   const voteExists = await context.prisma.$exists.vote({
     user: {
@@ -79,5 +79,6 @@ function post(parent, args, context, info) {
 module.exports = {
   signup,
   login,
-  post
+  post,
+  vote
 }
