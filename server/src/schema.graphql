@@ -1,46 +1,55 @@
 scalar DateTime
 
 type Query {
-  info: String!
-  feed(filter: String, skip: Int, first: Int): [Link!]!
-  link(id: ID!): Link!
+	info: String!
+	feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): [Link!]!
+	link(id: ID!): Link!
 }
 
 type Link {
-  id: ID!
-  createdAt: DateTime
-  description: String!
-  url: String!
-  postedBy: User
-  votes: [Vote!]!
+	id: ID!
+	createdAt: DateTime
+	description: String!
+	url: String!
+	postedBy: User
+	votes: [Vote!]!
 }
 
 type AuthPayLoad {
-  token: String
-  user: User
+	token: String
+	user: User
 }
 
 type User {
-  id: ID!
-  name: String!
-  email: String!
-  links: [Link!]!
+	id: ID!
+	name: String!
+	email: String!
+	links: [Link!]!
 }
 
 type Vote {
-  id: ID!
-  link: Link!
-  user: User!
+	id: ID!
+	link: Link!
+	user: User!
 }
 
 type Mutation {
-  post(url: String!, description: String!): Link!
-  signup(email: String!, password: String!, name: String!): AuthPayLoad
-  login(email: String!, password: String!): AuthPayLoad
-  vote(linkId: ID!): Vote
+	post(url: String!, description: String!): Link!
+	signup(email: String!, password: String!, name: String!): AuthPayLoad
+	login(email: String!, password: String!): AuthPayLoad
+	vote(linkId: ID!): Vote
 }
 
 type Subscription {
-  newLink: Link
-  newVote: Vote
+	newLink: Link
+	newVote: Vote
+}
+
+enum LinkOrderByInput {
+	description_ASC
+	description_DESC
+	url_ASC
+	url_DESC
+	createdAt_ASC
+	createdAt_DESC
 }
