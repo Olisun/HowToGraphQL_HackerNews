@@ -1,11 +1,12 @@
 import React from 'react';
+import LinkList from './LinkList'
 
 import '../styles/App.css';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hackernews Clone</h1>
+      <LinkList />
     </div>
   );
 }
