@@ -44,6 +44,8 @@ class CreateLink extends Component {
           mutation={POST_MUTATION}
           // Passing description and url states as variables prop. 
           variables={{ description, url }}
+          // This automatically redirects from the CreateLink component to the LinkList component after submitting the mutation.
+          onCompleted={() => this.props.history.push('/')}
         >
           {postMutation => <button onClick={postMutation}>Submit</button>}
         </Mutation>
